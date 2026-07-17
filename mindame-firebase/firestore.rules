@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function shortText(v) { return v is string && v.size() > 0 && v.size() <= 100; }
+    match /participants/{code} {
+      allow read: if true;
+      allow create: if request.resource.data.participantCode == code && code.matches('^[A-Z0-9_-]{3,20}$');
+      allow update: if request.resource.data.participantCode == code;
+      allow delete: if false;
+      match /tickets/{id} { allow read: if true; allow create, update: if request.resource.data.participantCode == code && shortText(request.resource.data.excuseText); allow delete: if false; }
+      match /dailyRecords/{date} { allow read: if true; allow create, update: if request.resource.data.participantCode == code && date.matches('^\d{4}-\d{2}-\d{2}$'); allow delete: if false; }
+      match /events/{id} { allow read, create: if request.resource.data.participantCode == code; allow update, delete: if false; }
+    }
+    match /publicPosts/{id} { allow read: if resource.data.isVisible == true; allow create: if shortText(request.resource.data.excuseText) && request.resource.data.isVisible == true; allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions']); allow delete: if false; }
+  }
+}
