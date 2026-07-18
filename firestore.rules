@@ -1,16 +1,39 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function shortText(v) { return v is string && v.size() > 0 && v.size() <= 100; }
-    match /participants/{code} {
-      allow read: if true;
-      allow create: if request.resource.data.participantCode == code && code.matches('^[A-Z0-9_-]{3,20}$');
-      allow update: if request.resource.data.participantCode == code;
-      allow delete: if false;
-      match /tickets/{id} { allow read: if true; allow create, update: if request.resource.data.participantCode == code && shortText(request.resource.data.excuseText); allow delete: if false; }
-      match /dailyRecords/{date} { allow read: if true; allow create, update: if request.resource.data.participantCode == code && date.matches('^\d{4}-\d{2}-\d{2}$'); allow delete: if false; }
-      match /events/{id} { allow read, create: if request.resource.data.participantCode == code; allow update, delete: if false; }
+    function validCode(code) {
+      return code.matches('^[A-Z0-9_-]{3,20}$');
     }
-    match /publicPosts/{id} { allow read: if resource.data.isVisible == true; allow create: if shortText(request.resource.data.excuseText) && request.resource.data.isVisible == true; allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions']); allow delete: if false; }
+    function shortText(value, max) {
+      return value is string && value.size() > 0 && value.size() <= max;
+    }
+
+    // 本研究はFirebase Authenticationを使用しない簡易MVPです。
+    // 参加コードを知る人は同じコードのデータへアクセスできるため、本名・学籍番号をコードに使用しないでください。
+    match /participantsV2/{code} {
+      allow read: if validCode(code);
+      allow create, update: if validCode(code) && request.resource.data.participantCode == code;
+      allow delete: if false;
+
+      match /records/{recordId} {
+        allow read: if validCode(code);
+        allow create: if validCode(code)
+          && request.resource.data.participantCode == code
+          && shortText(request.resource.data.predictedExcuse, 100)
+          && shortText(request.resource.data.firstStepText, 100);
+        allow update: if validCode(code)
+          && resource.data.participantCode == code
+          && request.resource.data.participantCode == code;
+        allow delete: if false;
+      }
+    }
+
+    match /publicPostsV2/{postId} {
+      allow read: if resource.data.isVisible == true;
+      allow create: if request.resource.data.isVisible == true
+        && shortText(request.resource.data.excuseText, 100);
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'isVisible']);
+      allow delete: if false;
+    }
   }
 }
