@@ -38,7 +38,7 @@ service cloud.firestore {
         allow get, list: if signedIn();
         allow create, update: if mine(uid)
           && request.resource.data.ownerUid == uid
-          && request.resource.data.type in ['aruaru', 'nainai'];
+          && request.resource.data.type == 'seed';
         allow delete: if mine(uid);
       }
 
