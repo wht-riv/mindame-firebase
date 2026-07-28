@@ -1,18 +1,25 @@
-# v4.1 更新手順
+# v4.2 更新手順
 
-1. FirebaseのFirestoreルールはv4のままで利用できます。
-2. ZIPを展開します。
-3. `mindame-firebase-v41` フォルダーの中身をGitHubリポジトリ直下へアップロードします。
-4. `package.json` と `package-lock.json` は必ず両方アップロードしてください。
-5. `Update Mindame to v4.1` としてmainへコミットします。
-6. Actionsが成功したら `?v=4.1` を付けて表示を確認します。
+## Firebase
+v4用のルールを公開済みなら、Firebase側の更新は不要です。
 
-## 変更ファイルだけ更新する場合
-最低限、以下を上書きします。
+## GitHub
+1. ZIPを展開します。
+2. `mindame-firebase-v42` フォルダーの中身をGitHubリポジトリ直下へアップロードします。
+3. `package.json` と `package-lock.json` は必ず両方アップロードします。
+4. `Update Mindame to v4.2` としてmainへコミットします。
+5. Actionsが成功したら `?v=4.2` を付けて確認します。
+
+## 最低限の上書き対象
 - `src/App.jsx`
+- `src/styles.css`
 - `package.json`
 - `package-lock.json`
 - `README.md`
 
-## デモ終了後
-`src/App.jsx` の `const DEMO_MODE=true;` を `false` に変更します。
+## テスト項目
+- 初回登録は3つちょうどでのみ保存できる
+- 自由入力した最初の一歩が次回候補へ出る
+- 予測と違う実際の理由が、その理由側へ加算される
+- 言い訳集が止まった回数順になる
+- 公開画面に「ネタ」という表現がない
