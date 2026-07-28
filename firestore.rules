@@ -43,6 +43,8 @@ service cloud.firestore {
       }
 
       match /replies/{uid} {
+        allow read, write: if false;
+      } {
         allow get, list: if signedIn();
         allow create, update: if mine(uid)
           && request.resource.data.ownerUid == uid
