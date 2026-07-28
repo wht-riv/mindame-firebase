@@ -1,14 +1,18 @@
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f7f5ee" />
-    <meta name="description" content="言い訳を予測して、今日の最初の一歩を考える習慣支援アプリ" />
-    <title>みんだめ</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+# みんだめ v4
+
+## 主な変更
+- 起動時は必ずホーム画面
+- ホーム上部に「振り返り」と「今日の予測・作戦」
+- 今日の記録を日付IDで保存し、二重登録を防止
+- ホーム・言い訳集・みんなの下部3タブ
+- 50～70％メーターを外し、三分類の配分バーへ変更
+  - それでも動けた
+  - 予測どおり
+  - 別の理由
+- 自分の言い訳を使用回数順で表示
+- 全ジャンルの共有投稿を表示し、ジャンルラベルを付与
+- お楽しみリアクションを「あるある／ないない」へ変更
+- 一段・60文字までの匿名返信
+- Firebase匿名認証、UID所有権、Firestore Rulesを継続
+
+更新前に `UPDATE_GUIDE.md` を読んでください。
