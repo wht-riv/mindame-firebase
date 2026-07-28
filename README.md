@@ -1,15 +1,14 @@
-# みんだめ v3
-
-## 今回の変更
-- 結果確認を「最初の一歩を実行した／実行しなかった」に整理
-- 実行した場合は「最初の一歩まで／その先も続けた」を記録
-- 未実行時は予測した言い訳との一致・不一致・理由不明を記録
-- ホームに「言い訳予測レポート」を追加
-  - 予測があっても動けた回数
-  - 予測と理由が一致した回数
-  - 新しい理由を発見した回数
-  - 使った言い訳の種類数
-- 種類数ランキングは採用せず、自分だけの記録として表示
-- Firebase匿名認証とUIDベースのデータ所有権を導入
-
-更新前に `UPDATE_GUIDE.md` を読んでください。
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f5ee" />
+    <meta name="description" content="言い訳を予測して、今日の最初の一歩を考える習慣支援アプリ" />
+    <title>みんだめ</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

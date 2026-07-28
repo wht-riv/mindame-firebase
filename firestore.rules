@@ -1,52 +1,6 @@
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    function signedIn() { return request.auth != null; }
-    function mine(uid) { return signedIn() && request.auth.uid == uid; }
-    function shortText(value, max) { return value is string && value.size() > 0 && value.size() <= max; }
-
-    match /participantsV3/{uid} {
-      allow get: if mine(uid);
-      allow create: if mine(uid) && request.resource.data.ownerUid == uid;
-      allow update: if mine(uid)
-        && resource.data.ownerUid == uid
-        && request.resource.data.ownerUid == uid;
-      allow list, delete: if false;
-
-      match /records/{recordId} {
-        allow get, list: if mine(uid);
-        allow create: if mine(uid)
-          && request.resource.data.ownerUid == uid
-          && request.resource.data.participantCode is string
-          && request.resource.data.participantCode.size() >= 3
-          && request.resource.data.participantCode.size() <= 20
-          && shortText(request.resource.data.predictedExcuse, 100)
-          && shortText(request.resource.data.firstStepText, 100);
-        allow update: if mine(uid)
-          && resource.data.ownerUid == uid
-          && request.resource.data.ownerUid == uid;
-        allow delete: if false;
-      }
-    }
-
-    match /publicPostsV3/{postId} {
-      allow get, list: if signedIn() && resource.data.isVisible == true;
-      allow create: if signedIn()
-        && request.resource.data.ownerUid == request.auth.uid
-        && request.resource.data.isVisible == true
-        && shortText(request.resource.data.excuseText, 100);
-      allow update: if signedIn()
-        && resource.data.ownerUid == request.auth.uid
-        && request.resource.data.ownerUid == resource.data.ownerUid;
-      allow delete: if false;
-
-      match /reactions/{uid} {
-        allow get, list: if signedIn();
-        allow create, update: if mine(uid)
-          && request.resource.data.ownerUid == uid
-          && request.resource.data.type in ['relate', 'novel'];
-        allow delete: if mine(uid);
-      }
-    }
-  }
-}
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
