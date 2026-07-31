@@ -1,18 +1,15 @@
-# v5.3 更新手順
+# v5.4 更新手順
+
+1. ZIPを展開します。
+2. `mindame-firebase-v54` フォルダー自体ではなく、その中身をGitHubリポジトリ直下へアップロードします。
+3. `package.json` と `package-lock.json` は必ずセットで更新します。
+4. mainブランチへ `Update Mindame to v5.4` としてコミットします。
+5. GitHub Actionsの最新実行が成功したら、公開ページを `?v=5.4` 付きで開きます。
 
 ## Firebase
-v5.2修正版のルールを公開済みなら、Firebase側の更新は不要です。
 
-## GitHub
-1. ZIPを展開します。
-2. `mindame-firebase-v53` フォルダーの中身をGitHubリポジトリ直下へアップロードします。
-3. `package.json` と `package-lock.json` を必ずセットで更新します。
-4. `Update Mindame to v5.3` としてmainへコミットします。
-5. Actions成功後、公開URLを `?v=5.3` 付きで確認します。
+v5.3のFirestoreルールと匿名認証を設定済みなら、Firebase Console側の更新は不要です。保存先と権限構造は変更していません。
 
-## テスト項目
-- 下部タブに「自分の記録」と表示される
-- 「できなかった理由」と「踏み出せた一歩」を切り替えられる
-- できた一歩の件数が正しく集計される
-- 「その先も続けた」の回数が別に表示される
-- 0回の一歩も表示される
+## 本番実験前
+
+`src/App.jsx` の `const DEMO_MODE=true;` を `const DEMO_MODE=false;` に変更してください。
